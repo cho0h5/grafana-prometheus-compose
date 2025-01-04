@@ -1,24 +1,22 @@
 services:
     grafana:
+        image: grafana/grafana
         ports:
             - 3000:3000
-        restart: always
         volumes:
-            - grafana-volume:/var/lib/grafana
-        image: grafana/grafana
+            - ./grafana-config/provisioning:/etc/grafana/provisioning
+            - grafana-data:/var/lib/grafana
+        restart: always
+
     prometheus:
-        ports:
-            - 9090:9090
-        restart: always
-        volumes:
-            - ${PWD}/config:/etc/prometheus
-            - prometheus-volume:/prometheus
         image: prom/prometheus
-    node-exporter:
-        ports:
-            - 9100:9100
+        volumes:
+            - ./prometheus-config:/etc/prometheus
         restart: always
+
+    node-exporter:
         image: prom/node-exporter
+        restart: always
+
 volumes:
-  grafana-volume:
-  prometheus-volume:
+  grafana-data:
