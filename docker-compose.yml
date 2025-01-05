@@ -17,6 +17,11 @@ services:
 
     node-exporter:
         image: prom/node-exporter
+        pid: host
+        volumes:
+            - '/:/host:ro,rslave'
+        command:
+            - '--path.rootfs=/host'
         restart: always
 
 volumes:
